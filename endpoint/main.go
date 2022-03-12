@@ -101,6 +101,7 @@ func GetSortedSpots(db *sql.DB, spots []Spots) []Spots {
 			continue
 		}
 		if nearSpots != nil {
+			start = i + 1
 			SortByRating(nearSpots)
 			endpoints = append(endpoints, nearSpots...)
 			nearSpots = nil
@@ -117,9 +118,9 @@ func main() {
 	db := db.SetupDB()
 	defer db.Close()
 
-	longitude := 23.79847
-	latitude := 37.97839
-	radius := 10000.0
+	longitude := -0.155503
+	latitude := 51.523190
+	radius := 500.0
 	shape := "square"
 
 	spots := GetAllSpots(db, longitude, latitude, radius, shape)
