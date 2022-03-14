@@ -41,7 +41,7 @@ func Circle(db *sql.DB, long float64, lat float64, radius float64) *sql.Rows {
 func Square(db *sql.DB, long float64, lat float64, radius float64) *sql.Rows {
 	rows, err := db.Query(`	SELECT id, name, COALESCE(website, '') AS "website", ST_AsText(coordinates) AS "coordinates", COALESCE(description, '') AS "description", rating,
 							ST_DISTANCE(coordinates, ST_Point($1, $2, 4326)::geography) AS "distance" FROM "MY_TABLE"
-							WHERE ST_DWithin(coordinates, ST_Buffer(ST_Point($1, $2, 4326)::geography, $3,'endcap=square'), $3)
+							WHERE ST_DWithin(coordinates, ST_Buffer(ST_Point($1, $2, 4326)::geography, $3,'endcap=square'), 0)
 							ORDER BY ST_Distance(coordinates, ST_Point($1, $2, 4326)::geography)`, long, lat, radius)
 	CheckError(err)
 	return rows
